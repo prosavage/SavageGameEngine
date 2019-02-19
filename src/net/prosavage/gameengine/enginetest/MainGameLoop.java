@@ -9,13 +9,6 @@ import org.lwjgl.opengl.Display;
 
 public class MainGameLoop {
 
-
-	/**
-	 * Loads up the position data for two triangles (which together make a quad)
-	 * into a VAO. This VAO is then rendered to the screen every frame.
-	 *
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
 		DisplayManager.createDisplay();
@@ -24,33 +17,31 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader();
 
 		float[] vertices = {
-				  // Left bottom triangle
-				  -0.5f, 0.5f, 0f,
-				  -0.5f, -0.5f, 0f,
-				  0.5f, -0.5f, 0f,
-				  // Right top triangle
-				  0.5f, -0.5f, 0f,
-				  0.5f, 0.5f, 0f,
-				  -0.5f, 0.5f, 0f
+                -0.5f, 0.5f, 0,   //V0
+                -0.5f, -0.5f, 0,  //V1
+                0.5f, -0.5f, 0,   //V2
+                0.5f, 0.5f, 0     //V3
 		};
 
 		int[] indices = {
-				  0, 1, 3,
-				  3, 1, 2
+                0, 1, 3,  //Top left triangle (V0,V1,V3)
+                3, 1, 2   //Bottom right triangle (V3,V1,V2)
 		};
 
-		RawModel model = loader.loadToVAO(vertices, indices);
+       RawModel model = loader.loadToVAO(vertices, indices);
 
-		while (!Display.isCloseRequested()) {
-			// game logic
+       while (!Display.isCloseRequested()) {
+          //game logic
 			renderer.prepare();
+          shader.start();
 			renderer.render(model);
+          shader.stop();
 			DisplayManager.updateDisplay();
 		}
 
 		shader.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
-	}
 
+    }
 }
