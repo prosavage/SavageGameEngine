@@ -4,6 +4,7 @@ import net.prosavage.gameengine.renderengine.DisplayManager;
 import net.prosavage.gameengine.renderengine.Loader;
 import net.prosavage.gameengine.renderengine.RawModel;
 import net.prosavage.gameengine.renderengine.Renderer;
+import net.prosavage.gameengine.shaders.StaticShader;
 import org.lwjgl.opengl.Display;
 
 public class MainGameLoop {
@@ -20,6 +21,7 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
 
 		float[] vertices = {
 				  // Left bottom triangle
@@ -46,6 +48,7 @@ public class MainGameLoop {
 			DisplayManager.updateDisplay();
 		}
 
+		shader.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 	}
