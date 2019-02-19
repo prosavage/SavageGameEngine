@@ -1,4 +1,4 @@
-package net.prosavage.gameengine.renderengine;
+package net.prosavage.gameengine.models;
 
 /**
  * Represents a loaded model. It contains the ID of the VAO that contains the

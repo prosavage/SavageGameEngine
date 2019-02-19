@@ -1,10 +1,12 @@
 package net.prosavage.gameengine.enginetest;
 
+import net.prosavage.gameengine.models.RawModel;
+import net.prosavage.gameengine.models.TexturedModel;
 import net.prosavage.gameengine.renderengine.DisplayManager;
 import net.prosavage.gameengine.renderengine.Loader;
-import net.prosavage.gameengine.renderengine.RawModel;
 import net.prosavage.gameengine.renderengine.Renderer;
 import net.prosavage.gameengine.shaders.StaticShader;
+import net.prosavage.gameengine.textures.ModelTexture;
 import org.lwjgl.opengl.Display;
 
 public class MainGameLoop {
@@ -17,25 +19,34 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader();
 
 		float[] vertices = {
-                -0.5f, 0.5f, 0,   //V0
-                -0.5f, -0.5f, 0,  //V1
-                0.5f, -0.5f, 0,   //V2
-                0.5f, 0.5f, 0     //V3
+				  -0.5f, 0.5f, 0,   //V0
+				  -0.5f, -0.5f, 0,  //V1
+				  0.5f, -0.5f, 0,   //V2
+				  0.5f, 0.5f, 0     //V3
 		};
 
 		int[] indices = {
-                0, 1, 3,  //Top left triangle (V0,V1,V3)
-                3, 1, 2   //Bottom right triangle (V3,V1,V2)
+				  0, 1, 3,  //Top left triangle (V0,V1,V3)
+				  3, 1, 2   //Bottom right triangle (V3,V1,V2)
 		};
 
-       RawModel model = loader.loadToVAO(vertices, indices);
+		float[] textureCoords = {
+				  0, 0,
+				  0, 1,
+				  1, 1,
+				  1, 0
+		};
+		RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("cow"));
+		TexturedModel texturedModel = new TexturedModel(model, texture);
 
-       while (!Display.isCloseRequested()) {
-          //game logic
+
+		while (!Display.isCloseRequested()) {
+			//game logic
 			renderer.prepare();
-          shader.start();
-			renderer.render(model);
-          shader.stop();
+			shader.start();
+			renderer.render(texturedModel);
+			shader.stop();
 			DisplayManager.updateDisplay();
 		}
 
@@ -43,5 +54,5 @@ public class MainGameLoop {
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 
-    }
+	}
 }

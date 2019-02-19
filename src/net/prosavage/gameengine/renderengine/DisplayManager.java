@@ -18,7 +18,9 @@ public class DisplayManager {
 	 * our game onto. We indicated that we want to use the entire window.
 	 */
 	public static void createDisplay() {
-		ContextAttribs attribs = new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true);
+		ContextAttribs attribs = new ContextAttribs(3, 2)
+				  .withForwardCompatible(true)
+				  .withProfileCore(true);
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create(new PixelFormat(), attribs);
